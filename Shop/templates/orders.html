@@ -1,0 +1,34 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-info py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Your Orders</h1>
+            <p class="lead fw-normal text-white-50 mb-0">See all your past orders here</p>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="my-4">Order History</h2>
+            {% if orders %}
+                <ul class="list-group">
+                    {% for order in orders %}
+                        <li class="list-group-item">
+                            <h5>{{ order.product.name }}</h5>
+                            <p>Quantity: {{ order.quantity }}</p>
+                            <p>Date: {{ order.date }}</p>
+                            <p>Status: {{ order.status|yesno:"Completed,Pending" }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no orders.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

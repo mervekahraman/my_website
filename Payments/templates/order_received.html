@@ -1,0 +1,32 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Order is Placed</h2>
+        <p>Thank you for your purchase!</p>
+
+        <h3>Order Details</h3>
+        <ul>
+            <li>Order ID: {{ order.id }}</li>
+            <li>Name: {{ order.name }}</li>
+            <li>Email: {{ order.email }}</li>
+            <li>Shipping Address: {{ order.shippingaddress }}</li>
+            <li>Amount: {{ order.money }}</li>
+        </ul>
+
+        <h3>Items</h3>
+        <ul>
+            {% for item in order.orderitems_set.all %}
+                <li>
+                    Product: {{ item.product.name }}<br>
+                    Quantity: {{ item.quantity }}<br>
+                    Price: {{ item.price }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="card-footer text-right" align="right">
+            <a href="{% url 'home' %}" class="btn btn-secondary">Go back to home page</a> <br>
+        </div> <br> <br>
+    </div>
+{% endblock %}

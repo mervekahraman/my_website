@@ -1,0 +1,77 @@
+{% extends 'Base.html' %}
+<!--&lt;!&ndash; Header&ndash;&gt;-->
+<!--        <header class="bg-dark py-5">-->
+<!--            <div class="container px-4 px-lg-5 my-5">-->
+<!--                <div class="text-center text-white">-->
+<!--                    <h1 class="display-4 fw-bolder">Update User Info</h1>-->
+<!--                    <p class="lead fw-normal text-white-50 mb-0"> Update Your Profile-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </header>-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <center>-->
+<!--                    <div class="col-8">-->
+<!--                      <br/><br/>-->
+<!--                   <strong>Billing Information</strong>-->
+<!--                   <form method="POST" action="{% url 'update_info' %}">-->
+<!--                       {% csrf_token %}-->
+<!--                       {{ form.as_p }}-->
+<!--                       <br><br/>-->
+<!--                       {{ shipping_form.as_p }}-->
+<!--                       <button type="submit" class="btn-secondary">-->
+<!--                           Update Profile-->
+<!--                       </button>-->
+
+<!--</form>-->
+<!--               </div>-->
+
+<!--                </center>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--<br/><br/>-->
+
+
+{% block content %}
+<header class="bg-info py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Update User Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0"> Update Your Profile
+            </p>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <center>
+            <div class="col-8">
+                <br/><br/>
+                <strong>Billing Information</strong>
+                <form method="POST" action="{% url 'update_info' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br><br/>
+                    <strong>Shipping Information</strong>
+                       {{ shipping_form.as_p }}
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Error updating user profile. Please correct the errors below:</strong>
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %} <br> <br>
+                    <button type="submit" class="btn-secondary">Update Profile</button>
+                </form>
+            </div>
+        </center>
+    </div>
+</div>
+<br/><br/>
+{% endblock %}

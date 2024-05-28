@@ -1,0 +1,78 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+    <!-- Header-->
+    <header class="bg-info py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">These are the matching results listed:</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <br> <br>
+            {% if items %}
+                <div class="container">
+                    {% for product in items %}
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text justified">{{ product.description_product }}</p>
+                                        <!-- You can add more product information here -->
+                                        <p>Price: ${{ product.price }}</p>
+                                        <a href="{% url 'home' %}" class="btn btn-secondary" >Home Page</a>
+                                         <button type="button" value="{{ product.id }}"
+                      class="btn btn-secondary" id="add-cart">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No product matched with the search.</p>
+            {% endif %}
+        </div>
+        <br> <br>  <br> <br> <br> <br> <br> <br> <br> <br> <br>
+    </div>
+<script>
+
+$(document).on('click', '#add-cart', function(e){
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_add' %}',
+        data: {
+    product_id: $('#add-cart').val(),
+    csrfmiddlewaretoken: '{{ csrf_token }}',
+    action: 'post'
+        },
+
+        success: function(json){
+
+            document.getElementById("cart_quantity").textContent = json.qty
+            location.reload();
+        },
+
+        error: function(xhr, errmsg, err){
+
+        }
+
+
+    });
+
+
+
+})
+
+</script>
+
+
+{% endblock %}

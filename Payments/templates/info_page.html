@@ -1,0 +1,94 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<header class="bg-info py-1">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-6 fw-bolder">Billing Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Billing Info Details</p>
+        </div>
+    </div>
+</header>
+<center>
+<div class="container mt-5">
+    <div class="row justify-content-between">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Billing Info</h5>
+<!--                    <form method="POST" action="{% url 'info_page' %}">-->
+<!--                          {% csrf_token %}-->
+                    {{ s_form.name }} <br>
+                    {{ s_form.address }}<br>
+
+                </div>
+
+            </div> <div class="container mt-5">
+    <div class="row justify-content-between">
+        <div class="col-md-20">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card Info</h5>
+                    <form method="POST" action="{% url 'order_received' %}">
+<!--                        {{ s_form.as_p }}-->
+                    {% csrf_token %}
+                    {{ bill.as_p }} <br>
+                        <input type="hidden" name="money" value="{{ totals }}">
+                    <button type="submit" >Pay From Here</button> </form>
+                    {% if s_form.errors or bill.errors %}
+                        <div class="alert alert-danger mt-3">
+                            <ul>
+                                {% for field, errors in s_form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ field }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for field, errors in bill.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ field }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+        </div>
+</div> </div> </div> </div>  </div>
+
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Overview of your cart...</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for product in cart_prod %}
+                        <li class="list-group-item">
+                            {{ product.name }}
+                            {% if product.is_Sale %}
+                            ${{ product.sale_price }}
+                            {% else %}
+                            ${{ product.price }}
+                            {% endif %}
+                            <br>
+                            Quantity: {% for key, value in quantities.items %}
+                            {% if key == product.id|slugify %}
+                            {{ value }}
+                            {% endif %}
+                            {% endfor %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <br>
+                    <p>Total: ${{ totals }}</p>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-secondary">Update Cart</a>
+                </div>
+                <div class="card-footer text-right" align="right">
+                    <br>
+                    <br>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Go back to home page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</center>
+{% endblock %}
