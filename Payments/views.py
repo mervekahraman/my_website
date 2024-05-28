@@ -24,10 +24,10 @@ def checkout(request):
     totals = cart_1.totals()
 
     if request.method == 'POST':
-        # Create an order
+
         order = Order.objects.create(
             customer=request.user,
-            # Add other necessary fields for the order
+
         )
         for item in cart_1.get_items():
             OrderItems.objects.create(
@@ -73,34 +73,6 @@ def info_page(request):
             "s_form": s_form,
             "bill": bill
         })
-
-
-
-
-# @login_required(login_url='accounts/login/')
-# def info_page(request):
-#     if request.method == 'POST':
-#         s_form = ShippingAddressForm(request.POST)
-#         cart_1 = Cart(request)
-#         cart_prod = cart_1.get_prods
-#         qty = cart_1.get_quantities
-#         totals = cart_1.totals()
-#
-#         if request.user.is_authenticated:
-#             bill = PaymentForm()
-#             return render(request, "info_page.html",
-#                           {"cart_prod": cart_prod, "quantities": qty, "totals": totals, "s_form": request.POST,"bill":bill})
-#         else:
-#             bill = PaymentForm()
-#             return render(request, "info_page.html",
-#                           {"cart_prod": cart_prod, "quantities": qty, "totals": totals, "s_form": request.POST,"bill":bill})
-#     else:
-#         cart_1 = Cart(request)
-#         cart_prod = cart_1.get_prods
-#         qty = cart_1.get_quantities
-#         totals = cart_1.totals()
-#         return render(request, "info_page.html", {"cart_prod": cart_prod, "quantities": qty, "totals": totals})
-
 
 
 

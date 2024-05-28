@@ -19,23 +19,6 @@ def home(request):
     product = Product.objects.all()
     return render(request,'Shop_home.html',{'products':product})
 
-# def update_usr(request):
-#     if request.user.is_authenticated:
-#         logged_user = User.objects.get(id= request.user.id)
-#         shipping = ShippingAddress.get(user__id=request.user.id)
-#         user_form = UpdateUserForm(request.POST or None, instance = logged_user)
-#         shipping_form = ShippingAddressForm(request.POST or None,instance=shipping)
-#         if user_form.is_valid():
-#             user_form.save()
-#
-#             login(request,logged_user)
-#             messages.success(request,"User Profile Updated")
-#             return redirect('home')
-#         return render(request,"update_usr.html",{"user_form":user_form,"shipping_form":shipping_form})
-#     else:
-#         messages.success(request,"You have to be logged in ")
-#         return redirect("register")
-
 
 def update_usr(request):
     if request.user.is_authenticated:
@@ -172,12 +155,7 @@ def search_bar(request):
         messages.success(request, "No item present in that name")
     return render(request, "search_bar.html", {"items": items, "search_term": search_term})
 
-# @login_required(login_url='accounts/login/')
-# def orders(request):
-#     user_profile = Profile.objects.get(user=request.user)
-#     orders = OrderItem.objects.filter(customer=user_profile).order_by('-date')
-#     return render(request, 'orders.html', {'orders': orders})
-#
+
 
 import logging
 
@@ -216,12 +194,12 @@ def place_order(request):
                 product=product,
                 customer=profile,
                 quantity=quantity,
-                address=profile.address,  # Assuming you want to use profile address
-                phone=profile.phone  # Assuming you want to use profile phone
+                address=profile.address,
+                phone=profile.phone
             )
             print(f"Order created: {order_item}")
-        cart.clear()  # Clear the cart after placing order
-        return redirect('orders')  # Redirect to orders page
+        cart.clear()
+        return redirect('orders')
     else:
         return redirect('login')
 
@@ -240,7 +218,6 @@ def order_received(request):
             phone=user_profile.phone,
             status=True
         )
-    # Clear the cart
     request.session['cart'] = {}
     return render(request, 'order_received.html')
 
